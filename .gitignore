@@ -1,0 +1,72 @@
+# ============================================
+# WebNest Solutions 3.0 — .gitignore
+# ============================================
+
+# ---- Dependencies ----
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# ---- Environment Variables (NEVER commit secrets) ----
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+server/.env
+client/.env
+client/.env.local
+
+# ---- Build Outputs ----
+dist/
+build/
+client/dist/
+server/dist/
+
+# ---- TypeScript Cache ----
+*.tsbuildinfo
+client/tsconfig.tsbuildinfo
+server/tsconfig.tsbuildinfo
+
+# ---- Vite Cache ----
+client/.vite/
+
+# ---- Logs ----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---- OS Files ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Testing ----
+coverage/
+.nyc_output/
+
+# ---- Package Manager ----
+.yarn/
+.pnp.*
+
+# ---- Misc ----
+*.local
+.cache/
