@@ -209,6 +209,11 @@ const seedData = async () => {
       },
       footerText: '© 2026 WebNest Solutions. All rights reserved. Built with passion in India ❤️',
       ctaText: 'Start a Project →',
+      salesPeople: ['Aisha Kumar', 'Rohan Verma', 'Priya Nair', 'Dev Shah'],
+      whatsappEnabled: false,
+      whatsappAlertNumber: '+91 98765 43210',
+      whatsappCustomerTemplate: 'lead_confirmation',
+      whatsappWebhookVerifyToken: 'webnest-whatsapp-webhook',
     });
     console.log('[Seed]: Site settings seeded');
 

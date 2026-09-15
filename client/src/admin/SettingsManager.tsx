@@ -19,6 +19,11 @@ export const SettingsManager: React.FC = () => {
     },
     footerText: '© 2026 WebNest Solutions. All rights reserved.',
     ctaText: 'Start a Project →',
+    salesPeople: ['Aisha Kumar', 'Rohan Verma', 'Priya Nair', 'Dev Shah'],
+    whatsappEnabled: false,
+    whatsappAlertNumber: '+91 98765 43210',
+    whatsappCustomerTemplate: 'lead_confirmation',
+    whatsappWebhookVerifyToken: 'webnest-whatsapp-webhook',
   });
 
   const [loading, setLoading] = useState(true);
@@ -117,6 +122,77 @@ export const SettingsManager: React.FC = () => {
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-2 text-sm text-white"
+            />
+          </div>
+        </div>
+
+        <div className="pt-2 border-t border-charcoal-800 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-warmNeutral-500">Sales Team</h3>
+          <div>
+            <label className="block text-[11px] text-cream-300 mb-1">Sales people names (comma separated)</label>
+            <textarea
+              rows={3}
+              value={(formData.salesPeople || []).join(', ')}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  salesPeople: e.target.value
+                    .split(',')
+                    .map((name) => name.trim())
+                    .filter(Boolean),
+                })
+              }
+              className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-2 text-sm text-white resize-none"
+            />
+          </div>
+        </div>
+
+        <div className="pt-2 border-t border-charcoal-800 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-warmNeutral-500">WhatsApp Automation</h3>
+          <div className="flex items-center justify-between rounded-lg border border-charcoal-700 bg-charcoal-950 px-3 py-2">
+            <div>
+              <div className="text-sm font-medium text-white">Enable WhatsApp notifications</div>
+              <div className="text-[11px] text-warmNeutral-500">Send internal lead alerts and customer confirmations.</div>
+            </div>
+            <input
+              type="checkbox"
+              checked={Boolean(formData.whatsappEnabled)}
+              onChange={(e) => setFormData({ ...formData, whatsappEnabled: e.target.checked })}
+              className="h-4 w-4 rounded border-charcoal-700 bg-charcoal-950 text-primary focus:ring-primary"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-[11px] text-cream-300 mb-1">Alert number</label>
+              <input
+                type="text"
+                value={formData.whatsappAlertNumber || ''}
+                onChange={(e) => setFormData({ ...formData, whatsappAlertNumber: e.target.value })}
+                className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-1.5 text-xs text-white"
+                placeholder="+91 98765 43210"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] text-cream-300 mb-1">Customer template</label>
+              <input
+                type="text"
+                value={formData.whatsappCustomerTemplate || ''}
+                onChange={(e) => setFormData({ ...formData, whatsappCustomerTemplate: e.target.value })}
+                className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-1.5 text-xs text-white"
+                placeholder="lead_confirmation"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[11px] text-cream-300 mb-1">Webhook verify token</label>
+            <input
+              type="text"
+              value={formData.whatsappWebhookVerifyToken || ''}
+              onChange={(e) => setFormData({ ...formData, whatsappWebhookVerifyToken: e.target.value })}
+              className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-1.5 text-xs text-white"
+              placeholder="webnest-whatsapp-webhook"
             />
           </div>
         </div>

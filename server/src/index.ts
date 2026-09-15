@@ -13,6 +13,7 @@ import enquiryRoutes from './routes/enquiryRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import { errorHandler } from './middleware/errorHandler';
+import { verifyWebhook } from './services/whatsappService';
 
 dotenv.config();
 
@@ -55,9 +56,30 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'WebNest Solutions 3.0 API', timestamp: new Date() });
 });
 
+app.get('/api/whatsapp/webhook', async (req, res) => {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  const verified = await verifyWebhook(String(mode || ''), String(token || ''), String(challenge || ''));
+  if (verified) {
+    return res.status(200).send(verified);
+  }
+
+  return res.status(403).send('Verification failed');
+});
+
+app.post('/api/whatsapp/webhook', (req, res) => {
+  return res.status(200).send('OK');
+});
+
 // Global Error Handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`[WebNest Backend Server]: Running on http://localhost:${PORT}`);
 });
+console.log(
+  "[MongoDB]: URI loaded:",
+  process.env.MONGODB_URI ? "YES" : "NO"
+);

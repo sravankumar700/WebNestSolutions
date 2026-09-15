@@ -9,6 +9,9 @@ export interface IEnquiry extends Document {
   budget?: string;
   message: string;
   status: 'New' | 'Contacted' | 'In Progress' | 'Completed' | 'Archived';
+  assignedTo?: string;
+  notes?: string;
+  source?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +30,9 @@ const EnquirySchema = new Schema<IEnquiry>(
       enum: ['New', 'Contacted', 'In Progress', 'Completed', 'Archived'],
       default: 'New',
     },
+    assignedTo: { type: String, default: '' },
+    notes: { type: String, default: '' },
+    source: { type: String, default: 'Website Form' },
   },
   { timestamps: true }
 );

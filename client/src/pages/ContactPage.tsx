@@ -38,7 +38,11 @@ export const ContactPage: React.FC = () => {
         message: '',
       });
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit enquiry.');
+      console.error('Enquiry submit failed:', err);
+      setError(
+        err.response?.data?.message ||
+          'Unable to reach the server. Please check your connection and try again.'
+      );
     } finally {
       setLoading(false);
     }

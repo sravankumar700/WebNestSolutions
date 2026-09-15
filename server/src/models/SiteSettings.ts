@@ -14,6 +14,11 @@ export interface ISiteSettings extends Document {
   };
   footerText: string;
   ctaText: string;
+  salesPeople: string[];
+  whatsappEnabled: boolean;
+  whatsappAlertNumber: string;
+  whatsappCustomerTemplate: string;
+  whatsappWebhookVerifyToken: string;
   updatedAt: Date;
 }
 
@@ -35,6 +40,14 @@ const SiteSettingsSchema = new Schema<ISiteSettings>(
     },
     footerText: { type: String, default: '© 2026 WebNest Solutions. All rights reserved.' },
     ctaText: { type: String, default: 'Start a Project →' },
+    salesPeople: {
+      type: [String],
+      default: ['Aisha Kumar', 'Rohan Verma', 'Priya Nair', 'Dev Shah'],
+    },
+    whatsappEnabled: { type: Boolean, default: false },
+    whatsappAlertNumber: { type: String, default: '+91 98765 43210' },
+    whatsappCustomerTemplate: { type: String, default: 'lead_confirmation' },
+    whatsappWebhookVerifyToken: { type: String, default: 'webnest-whatsapp-webhook' },
   },
   { timestamps: true }
 );

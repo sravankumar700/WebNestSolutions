@@ -49,7 +49,11 @@ export interface EnquiryItem {
   budget?: string;
   message: string;
   status: 'New' | 'Contacted' | 'In Progress' | 'Completed' | 'Archived';
+  assignedTo?: string;
+  notes?: string;
+  source?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface SiteSettingsData {
@@ -66,6 +70,11 @@ export interface SiteSettingsData {
   };
   footerText: string;
   ctaText: string;
+  salesPeople?: string[];
+  whatsappEnabled?: boolean;
+  whatsappAlertNumber?: string;
+  whatsappCustomerTemplate?: string;
+  whatsappWebhookVerifyToken?: string;
 }
 
 export interface User {

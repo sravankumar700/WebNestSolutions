@@ -58,8 +58,10 @@ export const submitEnquiry = (data: Partial<EnquiryItem>) =>
 export const fetchEnquiries = (status?: string, search?: string) =>
   API.get<{ enquiries: EnquiryItem[] }>('/enquiries', { params: { status, search } });
 
-export const updateEnquiryStatus = (id: string, status: string) =>
-  API.put<{ message: string; enquiry: EnquiryItem }>(`/enquiries/${id}`, { status });
+export const updateEnquiryStatus = (
+  id: string,
+  data: { status?: string; assignedTo?: string; notes?: string }
+) => API.put<{ message: string; enquiry: EnquiryItem }>(`/enquiries/${id}`, data);
 
 export const deleteEnquiry = (id: string) =>
   API.delete<{ message: string }>(`/enquiries/${id}`);

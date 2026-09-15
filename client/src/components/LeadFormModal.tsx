@@ -48,7 +48,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
         message: '',
       });
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit enquiry. Please try again.');
+      console.error('Enquiry submit failed:', err);
+      setError(
+        err.response?.data?.message ||
+          'Unable to reach the server. Please check your connection and try again.'
+      );
     } finally {
       setLoading(false);
     }
