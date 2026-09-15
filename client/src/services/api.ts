@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Project, ServiceItem, TestimonialItem, EnquiryItem, SiteSettingsData, User } from '../types';
 
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   withCredentials: true,
 });
 
