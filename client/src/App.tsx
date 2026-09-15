@@ -11,6 +11,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminLogin } from './pages/AdminLogin';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { fetchMe, fetchSiteSettings } from './services/api';
 import { User, SiteSettingsData } from './types';
 
@@ -70,6 +71,7 @@ export const App: React.FC = () => {
           <Route path="/services" element={<ServicesPage onOpenEnquiry={(s) => openEnquiryModal(s)} />} />
           <Route path="/about" element={<AboutPage onOpenEnquiry={() => openEnquiryModal()} />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
 
           {/* Admin Routes */}
           <Route
