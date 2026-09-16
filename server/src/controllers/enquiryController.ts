@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Enquiry } from '../models/Enquiry';
+import { NewsletterSubscriber } from '../models/NewsletterSubscriber';
 import { sendLeadNotifications } from '../services/whatsappService';
 
 const getFallbackEnquiries = () => {
@@ -11,11 +12,19 @@ const getFallbackEnquiries = () => {
 
 export const createEnquiry = async (req: Request, res: Response) => {
   try {
-    const { name, email, phone, businessName, service, budget, message, assignedTo, notes, source } = req.body;
+    const { name, email, phone, businessName, service, budget, message, offerCode, assignedTo, notes, source } = req.body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ message: 'Name, email, and message are required fields.' });
     }
+
+    const normalizedOfferCode = String(offerCode || '').trim().toUpperCase();
+    const newsletterSubscriber =
+      normalizedOfferCode === 'WEBNEST10' && mongoose.connection.readyState === 1
+        ? await NewsletterSubscriber.exists({ email: String(email).trim().toLowerCase() })
+        : null;
+    const discountNote = newsletterSubscriber ? 'Newsletter offer WEBNEST10 verified: apply 10% off quotation.' : '';
+    const enquiryNotes = [notes, discountNote].filter(Boolean).join(' ');
 
     if (mongoose.connection.readyState !== 1) {
       const fallbackEnquiry = {
@@ -29,7 +38,7 @@ export const createEnquiry = async (req: Request, res: Response) => {
         message,
         status: 'New',
         assignedTo: assignedTo || '',
-        notes: notes || '',
+        notes: enquiryNotes,
         source: source || 'Website Form',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -52,7 +61,7 @@ export const createEnquiry = async (req: Request, res: Response) => {
       message,
       status: 'New',
       assignedTo: assignedTo || '',
-      notes: notes || '',
+      notes: enquiryNotes,
       source: source || 'Website Form',
     });
 

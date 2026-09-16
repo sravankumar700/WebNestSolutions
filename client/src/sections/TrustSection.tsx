@@ -2,12 +2,10 @@ import React from 'react';
 
 export const TrustSection: React.FC = () => {
   const logos = [
-    { name: 'FryGuy', font: 'font-display font-extrabold text-brandRed-500 text-xl tracking-tight' },
-    { name: '❖ SALONX', font: 'font-sans font-bold text-cream-200 tracking-wider text-sm uppercase' },
-    { name: 'TechNova', font: 'font-display font-semibold text-cream-300 text-base' },
-    { name: 'Bloom', font: 'font-handwriting font-bold text-cream-200 text-2xl' },
-    { name: '✚ ZEPHYR', font: 'font-mono font-bold text-cream-300 text-sm tracking-widest' },
-    { name: 'Vibe', font: 'font-handwriting font-bold text-brandRed-500 text-2xl' },
+    { name: 'Hair & Glow', font: 'font-display font-extrabold text-lg tracking-tight' },
+    { name: 'Street Barber', font: 'font-sans font-bold tracking-wide text-sm' },
+    { name: 'FryGuy Burgers', font: 'font-display font-semibold text-base' },
+    { name: 'Jaswanth Interiors', font: 'font-sans font-semibold text-sm tracking-wide' },
   ];
 
   return (
@@ -17,13 +15,15 @@ export const TrustSection: React.FC = () => {
           TRUSTED BY BUSINESSES LIKE
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center opacity-80 hover:opacity-100 transition-opacity">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-80 hover:opacity-100 transition-opacity">
           {logos.map((logo, index) => (
             <div
               key={index}
-              className="py-2 px-4 rounded-xl hover:bg-charcoal-800/50 transition-colors duration-300 flex items-center justify-center"
+              className="group relative py-2 px-4 rounded-xl cursor-default hover:bg-brandRed-500/10 transition-all duration-300 flex items-center justify-center hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_24px_rgba(206,66,43,0.16)] after:absolute after:left-4 after:right-4 after:bottom-0 after:h-px after:bg-brandRed-500 after:origin-center after:scale-x-0 after:transition-transform after:duration-300 group-hover:after:scale-x-100"
             >
-              <span className={logo.font}>{logo.name}</span>
+              <span className={`${logo.font} text-cream-200 transition-colors duration-300 group-hover:text-brandRed-500`}>
+                {logo.name}
+              </span>
             </div>
           ))}
         </div>

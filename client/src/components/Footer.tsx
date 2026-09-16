@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Instagram, Youtube, ArrowRight, Check } from 'lucide-react';
 import blackLogo from '../assets/webnest-icon.png';
+import { subscribeToNewsletter } from '../services/api';
 
 interface FooterProps {
   settings?: {
@@ -20,9 +21,14 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newsletterEmail) {
+      try {
+        await subscribeToNewsletter(newsletterEmail);
+      } catch (error) {
+        return;
+      }
       setSubscribed(true);
       setNewsletterEmail('');
       setTimeout(() => setSubscribed(false), 4000);
@@ -168,10 +174,10 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
           {/* Stay in touch */}
           <div>
             <h4 className="text-white text-xs font-semibold uppercase tracking-wider mb-4">
-              Stay in touch
+              Newsletter
             </h4>
             <p className="text-warmNeutral-300 text-xs mb-3">
-              Get updates, new projects and tips.
+              Get updates, new projects and tips by email.
             </p>
             {subscribed ? (
               <div className="bg-brandRed-500/10 border border-brandRed-500/30 text-brandRed-500 text-xs p-3 rounded-lg flex items-center space-x-2">
@@ -183,6 +189,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                 <input
                   type="email"
                   required
+                  aria-label="Newsletter email address"
                   placeholder="Your email address"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
@@ -203,10 +210,6 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-warmNeutral-300 space-y-4 md:space-y-0">
           <p>{settings?.footerText || '© 2026 WebNest Solutions. All rights reserved.'}</p>
-          <p className="flex items-center space-x-1">
-            <span>Built with passion in India</span>
-            <span className="text-brandRed-500">❤️</span>
-          </p>
         </div>
       </div>
     </footer>

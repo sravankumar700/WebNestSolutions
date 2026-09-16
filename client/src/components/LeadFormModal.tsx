@@ -21,6 +21,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
     businessName: '',
     service: defaultService,
     budget: '$1,000 - $3,000',
+    offerCode: '',
     message: '',
   });
 
@@ -45,6 +46,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
         businessName: '',
         service: defaultService,
         budget: '$1,000 - $3,000',
+        offerCode: '',
         message: '',
       });
     } catch (err: any) {
@@ -203,6 +205,20 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
                     <option value="$5,000+">$5,000+</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-cream-300 mb-1.5">
+                  Newsletter Offer Code
+                </label>
+                <input
+                  type="text"
+                  placeholder="WEBNEST10"
+                  value={formData.offerCode}
+                  onChange={(e) => setFormData({ ...formData, offerCode: e.target.value })}
+                  className="w-full bg-charcoal-950 border border-charcoal-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors"
+                />
+                <p className="text-[11px] text-warmNeutral-500 mt-1">Newsletter subscribers can use WEBNEST10 for 10% off a quotation.</p>
               </div>
 
               <div>

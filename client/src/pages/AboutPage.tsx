@@ -10,7 +10,7 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -78,11 +78,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
                   loop
                   muted
                   playsInline
+                  preload="auto"
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
                   className="w-full h-full object-cover opacity-90 transition-opacity duration-300 group-hover:opacity-100"
                   poster="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"
                 >
                   <source
-                    src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-41318-large.mp4"
+                    src="https://videos.pexels.com/video-files/853800/853800-hd_1920_1080_30fps.mp4"
                     type="video/mp4"
                   />
                   Your browser does not support video playback.

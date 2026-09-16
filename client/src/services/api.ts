@@ -66,6 +66,10 @@ export const updateEnquiryStatus = (
 export const deleteEnquiry = (id: string) =>
   API.delete<{ message: string }>(`/enquiries/${id}`);
 
+// Newsletter
+export const subscribeToNewsletter = (email: string) =>
+  API.post<{ message: string }>('/newsletter/subscribe', { email });
+
 // Settings
 export const fetchSiteSettings = () =>
   API.get<{ settings: SiteSettingsData }>('/settings');

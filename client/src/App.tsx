@@ -16,6 +16,10 @@ import { fetchMe, fetchSiteSettings } from './services/api';
 import { User, SiteSettingsData } from './types';
 
 export const App: React.FC = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const savedTheme = window.localStorage.getItem('webnest-theme');
+    return savedTheme === 'dark' ? 'dark' : 'light';
+  });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('Business Website');
   const [adminUser, setAdminUser] = useState<User | null>(null);
@@ -24,6 +28,17 @@ export const App: React.FC = () => {
 
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isKnownPublicRoute =
+    location.pathname === '/' ||
+    ['/services', '/about', '/contact'].includes(location.pathname) ||
+    location.pathname === '/projects' ||
+    location.pathname.startsWith('/projects/');
+  const isNotFoundRoute = !isAdminRoute && !isKnownPublicRoute;
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem('webnest-theme', theme);
+  }, [theme]);
 
   // Scroll to top on route change
   useEffect(() => {
@@ -60,8 +75,14 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-charcoal-950 text-cream-100 selection:bg-brandRed-500 selection:text-white font-sans">
-      {!isAdminRoute && <Navbar onOpenEnquiry={() => openEnquiryModal()} />}
+    <div className="flex flex-col min-h-screen bg-cream-100 text-warmNeutral-900 selection:bg-brandRed-500 selection:text-white font-sans">
+      {!isAdminRoute && !isNotFoundRoute && (
+        <Navbar
+          theme={theme}
+          onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}
+          onOpenEnquiry={() => openEnquiryModal()}
+        />
+      )}
 
       <main className="flex-grow">
         <Routes>
@@ -80,7 +101,11 @@ export const App: React.FC = () => {
               adminUser ? (
                 <Navigate to="/admin" replace />
               ) : (
-                <AdminLogin onLoginSuccess={(user) => setAdminUser(user)} />
+                <AdminLogin
+                  theme={theme}
+                  onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}
+                  onLoginSuccess={(user) => setAdminUser(user)}
+                />
               )
             }
           />
@@ -92,7 +117,12 @@ export const App: React.FC = () => {
                   Checking authentication...
                 </div>
               ) : adminUser ? (
-                <AdminDashboard user={adminUser} onLogout={() => setAdminUser(null)} />
+                <AdminDashboard
+                  user={adminUser}
+                  theme={theme}
+                  onToggleTheme={() => setTheme((current) => (current === 'light' ? 'dark' : 'light'))}
+                  onLogout={() => setAdminUser(null)}
+                />
               ) : (
                 <Navigate to="/admin/login" replace />
               )
@@ -101,7 +131,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
 
-      {!isAdminRoute && <Footer settings={settings} />}
+      {!isAdminRoute && !isNotFoundRoute && <Footer settings={settings} />}
 
       {/* Global Lead Form Popup Modal */}
       <LeadFormModal

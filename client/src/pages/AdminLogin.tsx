@@ -4,13 +4,16 @@ import { loginAdmin } from '../services/api';
 import { Button } from '../components/Button';
 import { Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { ThemeToggle } from '../components/ThemeToggle';
 import blackLogo from '../assets/webnest-icon.png';
 
 interface AdminLoginProps {
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
   onLoginSuccess: (user: any) => void;
 }
 
-export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
+export const AdminLogin: React.FC<AdminLoginProps> = ({ theme, onToggleTheme, onLoginSuccess }) => {
   const [email, setEmail] = useState('admin@webnest.com');
   const [password, setPassword] = useState('WebNest2026!Secret');
   const [loading, setLoading] = useState(false);
@@ -36,6 +39,10 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
   return (
     <div className="min-h-screen bg-charcoal-950 flex items-center justify-center p-4 relative overflow-hidden">
       <SEO title="Admin Login" />
+
+      <div className="absolute top-4 right-4">
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
 
       <div className="bg-charcoal-900 border border-charcoal-800 rounded-3xl p-8 sm:p-10 w-full max-w-md shadow-2xl relative z-10 space-y-6">
         

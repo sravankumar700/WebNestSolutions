@@ -13,6 +13,7 @@ export const ContactPage: React.FC = () => {
     businessName: '',
     service: 'Business Website',
     budget: '$1,000 - $3,000',
+    offerCode: '',
     message: '',
   });
 
@@ -35,6 +36,7 @@ export const ContactPage: React.FC = () => {
         businessName: '',
         service: 'Business Website',
         budget: '$1,000 - $3,000',
+        offerCode: '',
         message: '',
       });
     } catch (err: any) {
@@ -216,6 +218,18 @@ export const ContactPage: React.FC = () => {
                       <option value="$5,000+">$5,000+</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-cream-200 mb-1">Newsletter Offer Code</label>
+                  <input
+                    type="text"
+                    placeholder="WEBNEST10"
+                    value={formData.offerCode}
+                    onChange={(e) => setFormData({ ...formData, offerCode: e.target.value })}
+                    className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none"
+                  />
+                  <p className="text-[11px] text-warmNeutral-500 mt-1">Use WEBNEST10 for 10% off your website quotation.</p>
                 </div>
 
                 <div>

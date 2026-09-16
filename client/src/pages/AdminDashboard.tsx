@@ -7,6 +7,7 @@ import { TestimonialManager } from '../admin/TestimonialManager';
 import { EnquiryManager } from '../admin/EnquiryManager';
 import { SettingsManager } from '../admin/SettingsManager';
 import { SEO } from '../components/SEO';
+import { ThemeToggle } from '../components/ThemeToggle';
 import {
   FolderKanban,
   Wrench,
@@ -25,10 +26,12 @@ import blackLogo from '../assets/webnest-icon.png';
 
 interface AdminDashboardProps {
   user: any;
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
   onLogout: () => void;
 }
 
-export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user, onLogout }) => {
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user, theme, onToggleTheme, onLogout }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'services' | 'testimonials' | 'enquiries' | 'settings'>('overview');
   const [salesPeople, setSalesPeople] = useState<string[]>([
     'Aisha Kumar',
@@ -137,6 +140,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user, onLogout }
           <span className="text-xs text-warmNeutral-400">
             Logged in as <strong className="text-white">{user?.email || 'Admin'}</strong>
           </span>
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} />
           <button
             onClick={handleSignOut}
             className="bg-charcoal-800 hover:bg-red-500/20 hover:text-red-400 text-warmNeutral-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors"

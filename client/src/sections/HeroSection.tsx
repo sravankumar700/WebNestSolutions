@@ -15,13 +15,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenEnquiry }) => {
           
           {/* Left Hero Content */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center space-x-2 bg-cream-200/80 border border-cream-300 rounded-full px-3.5 py-1 text-xs text-warmNeutral-700">
-              <span className="w-2 h-2 rounded-full bg-brandRed-500" />
-              <span className="font-semibold uppercase tracking-wider text-[11px]">
-                MODERN WEBSITES FOR REAL BUSINESSES
-              </span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight text-warmNeutral-900 leading-[1.1]">
               Build Your <br />
               Online Presence <br />

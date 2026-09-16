@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './Button';
+import { ThemeToggle } from './ThemeToggle';
 import blackLogo from '../assets/webnest-icon.png';
 
 interface NavbarProps {
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
   onOpenEnquiry?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenEnquiry }) => {
+export const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme, onOpenEnquiry }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -88,7 +91,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnquiry }) => {
           </nav>
 
           {/* Right: Get a Quote CTA Button */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center space-x-2">
+            <ThemeToggle theme={theme} onToggle={onToggleTheme} />
             <Button
               variant="primary"
               size="sm"
@@ -99,7 +103,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenEnquiry }) => {
           </div>
 
           {/* Mobile Menu Toggle Button */}
-          <div className="flex md:hidden items-center">
+          <div className="flex md:hidden items-center space-x-1">
+            <ThemeToggle theme={theme} onToggle={onToggleTheme} />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-warmNeutral-900 hover:text-brandRed-500 p-2 focus:outline-none"

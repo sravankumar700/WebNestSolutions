@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, ShieldCheck, ExternalLink, ArrowRight, CheckCircle2, Sparkles, Smartphone, Award } from 'lucide-react';
+import { ExternalLink, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface AgencyProject {
   id: string;
@@ -55,35 +55,21 @@ const agencyProjects: AgencyProject[] = [
 ];
 
 export const HeroDeviceMockup: React.FC = () => {
-  const [activeProject, setActiveProject] = useState<AgencyProject>(agencyProjects[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeProject = agencyProjects[activeIndex];
+
+  useEffect(() => {
+    const slideshow = window.setInterval(() => {
+      setActiveIndex((currentIndex) => (currentIndex + 1) % agencyProjects.length);
+    }, 5000);
+
+    return () => window.clearInterval(slideshow);
+  }, []);
 
   return (
     <div className="relative w-full max-w-[620px] mx-auto py-2 flex flex-col items-center justify-center select-none">
       
-      {/* 1. Meaningful Header Bar: Interactive Agency Solution Switcher */}
-      <div className="w-full mb-3 bg-white/90 backdrop-blur-md border border-cream-300 rounded-2xl p-2.5 shadow-card-soft flex items-center justify-between">
-        <div className="flex items-center space-x-1.5 text-xs font-bold text-warmNeutral-900">
-          <Sparkles className="w-3.5 h-3.5 text-[#CE422B]" />
-          <span>Interactive Live Showcase:</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          {agencyProjects.map((proj) => (
-            <button
-              key={proj.id}
-              onClick={() => setActiveProject(proj)}
-              className={`px-3 py-1 rounded-xl text-[11px] font-semibold transition-all ${
-                activeProject.id === proj.id
-                  ? 'bg-[#CE422B] text-white shadow-sm font-bold'
-                  : 'bg-cream-100 text-warmNeutral-700 hover:bg-cream-200'
-              }`}
-            >
-              {proj.name.split(' ')[0]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 2. Main Device Mockup Screen */}
+      {/* Automatic WebNest project slideshow */}
       <motion.div
         key={activeProject.id}
         initial={{ opacity: 0.8, y: 4 }}
@@ -186,20 +172,18 @@ export const HeroDeviceMockup: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* 3. Meaningful Bottom Value Bar */}
-      <div className="w-full mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-bold text-warmNeutral-700 uppercase tracking-wider">
-        <div className="bg-white/80 border border-cream-300 rounded-xl py-2 px-1 flex items-center justify-center space-x-1">
-          <Zap className="w-3 h-3 text-[#CE422B]" />
-          <span>⚡ 99/100 Speed</span>
-        </div>
-        <div className="bg-white/80 border border-cream-300 rounded-xl py-2 px-1 flex items-center justify-center space-x-1">
-          <Smartphone className="w-3 h-3 text-[#CE422B]" />
-          <span>📱 Mobile First</span>
-        </div>
-        <div className="bg-white/80 border border-cream-300 rounded-xl py-2 px-1 flex items-center justify-center space-x-1">
-          <Award className="w-3 h-3 text-[#CE422B]" />
-          <span>📈 ROI Driven</span>
-        </div>
+      <div className="flex items-center justify-center gap-2 mt-4" aria-label="Project slideshow progress">
+        {agencyProjects.map((project, index) => (
+          <button
+            key={project.id}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            aria-label={`Show ${project.name}`}
+            className={`h-1.5 rounded-full transition-all ${
+              activeIndex === index ? 'w-8 bg-brandRed-500' : 'w-1.5 bg-charcoal-700 hover:bg-brandRed-500/70'
+            }`}
+          />
+        ))}
       </div>
 
     </div>

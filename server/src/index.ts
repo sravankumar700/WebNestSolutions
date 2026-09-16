@@ -12,6 +12,7 @@ import testimonialRoutes from './routes/testimonialRoutes';
 import enquiryRoutes from './routes/enquiryRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import newsletterRoutes from './routes/newsletterRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import { verifyWebhook } from './services/whatsappService';
 
@@ -50,6 +51,7 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/enquiries', enquiryRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
