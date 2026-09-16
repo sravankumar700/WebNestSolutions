@@ -15,6 +15,7 @@ import uploadRoutes from './routes/uploadRoutes';
 import newsletterRoutes from './routes/newsletterRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import { verifyWebhook } from './services/whatsappService';
+import { startNewsletterScheduler } from './services/newsletterScheduler';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ const PORT = process.env.PORT || 5000;
 
 // Connect Database
 connectDB();
+startNewsletterScheduler();
 
 // Security & Parsing Middlewares
 app.use(

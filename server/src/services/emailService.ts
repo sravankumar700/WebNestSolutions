@@ -13,6 +13,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export const sendNewsletterCampaignEmail = (email: string) => {
+  const subject = process.env.NEWSLETTER_SUBJECT || 'WebNest weekly web insight';
+  const text = process.env.NEWSLETTER_TEXT || 'Here is this week\'s web insight from WebNest Solutions.';
+  const html = process.env.NEWSLETTER_HTML || `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#1c1b19;max-width:560px;margin:auto;padding:24px"><h2 style="color:#ce422b;margin-bottom:8px">WebNest weekly insight</h2><p>${text}</p><p>WebNest Solutions</p></div>`;
+
+  return transporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to: email,
+    subject,
+    text,
+    html,
+  });
+};
+
 export const sendNewsletterWelcomeEmail = (email: string) =>
   transporter.sendMail({
     from: process.env.SMTP_FROM || process.env.SMTP_USER,
