@@ -74,6 +74,17 @@ This guide provides step-by-step instructions for deploying the **WebNest Soluti
    | `CLOUDINARY_CLOUD_NAME` | *Your Cloudinary Cloud Name* |
    | `CLOUDINARY_API_KEY` | *Your Cloudinary API Key* |
    | `CLOUDINARY_API_SECRET` | *Your Cloudinary API Secret* |
+   | `SMTP_HOST` | *Your SMTP host* |
+   | `SMTP_PORT` | `587` |
+   | `SMTP_SECURE` | `false` |
+   | `SMTP_USER` | *Your SMTP username* |
+   | `SMTP_PASS` | *Your SMTP password* |
+   | `SMTP_FROM` | *The newsletter sender address* |
+   | `NEWSLETTER_ENABLED` | `true` |
+   | `NEWSLETTER_SCHEDULE` | `0 9 * * 1,3,5` |
+   | `NEWSLETTER_TIMEZONE` | `UTC` |
+   | `NEWSLETTER_SUBJECT` | *Your campaign subject* |
+   | `NEWSLETTER_TEXT` | *Your campaign text* |
 
 6. Click **Create Web Service**. Once deployed, Render will provide your backend API URL (e.g., `https://webnest-backend.onrender.com`).
 7. **Seed Production Admin User**:

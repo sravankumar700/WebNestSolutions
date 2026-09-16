@@ -67,7 +67,7 @@ export const HeroDeviceMockup: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-full max-w-[620px] mx-auto py-2 flex flex-col items-center justify-center select-none">
+    <div className="relative w-full max-w-[720px] ml-auto py-2 flex flex-col items-center justify-center select-none">
       
       {/* Automatic WebNest project slideshow */}
       <motion.div
@@ -78,26 +78,26 @@ export const HeroDeviceMockup: React.FC = () => {
         className="w-full relative z-10"
       >
         {/* LAPTOP SCREEN FRAME */}
-        <div className="relative bg-[#1A1C23] rounded-2xl p-3 sm:p-3.5 shadow-2xl border border-charcoal-700">
+        <div className="hero-mockup-frame relative rounded-[2rem] p-3 sm:p-3.5 shadow-[0_18px_38px_rgba(28,27,25,0.08)] border lg:-ml-2">
           
           {/* Webcam Notch */}
-          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-black border border-charcoal-800 flex items-center justify-center z-30">
-            <div className="w-1 h-1 rounded-full bg-blue-900/60" />
+          <div className="hero-mockup-notch absolute top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full flex items-center justify-center z-30">
+            <div className="w-1 h-1 rounded-full bg-[#B9C9D8]/80" />
           </div>
 
           {/* DISPLAY SCREEN */}
-          <div className="relative aspect-[16/10] bg-[#0C0D11] rounded-lg overflow-hidden border border-charcoal-800 flex flex-col justify-between shadow-inner">
+          <div className="hero-mockup-screen relative aspect-[16/10] rounded-lg overflow-hidden border flex flex-col justify-between shadow-inner">
             
             {/* Top Browser Bar */}
-            <div className="h-8 bg-[#15161E] border-b border-charcoal-800 px-3 flex items-center justify-between z-20">
+            <div className="hero-browser-bar h-8 px-3 flex items-center justify-between z-20">
               <div className="flex items-center space-x-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
               </div>
 
-              <div className="text-[10px] font-mono text-warmNeutral-400 bg-charcoal-950 px-3 py-0.5 rounded-full border border-charcoal-800 flex items-center space-x-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="hero-browser-url text-[10px] font-mono px-3 py-0.5 rounded-full border flex items-center space-x-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="truncate max-w-[220px]">{activeProject.url}</span>
               </div>
 
@@ -105,7 +105,7 @@ export const HeroDeviceMockup: React.FC = () => {
                 href={activeProject.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-[10px] text-white hover:text-[#CE422B] flex items-center space-x-1 font-semibold"
+                className="hero-live-link text-[10px] flex items-center space-x-1 font-semibold"
               >
                 <span>Live Demo</span>
                 <ExternalLink className="w-2.5 h-2.5" />
@@ -113,38 +113,47 @@ export const HeroDeviceMockup: React.FC = () => {
             </div>
 
             {/* Main Project Card Display */}
-            <div className={`px-5 py-4 bg-gradient-to-b ${activeProject.gradient} flex-1 flex flex-col justify-between z-10`}>
+            <div className="hero-content px-5 py-4 flex-1 flex flex-col justify-between z-10">
               
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#CE422B] bg-[#CE422B]/10 px-2 py-0.5 rounded">
+                  <span className="hero-category text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded">
                     {activeProject.category}
                   </span>
-                  <h3 className="text-base sm:text-xl font-bold font-display text-white mt-1">
+                  <h3 className="hero-title-card text-base sm:text-[1.7rem] font-bold font-display mt-1 leading-[1.05] tracking-[-0.04em]">
                     {activeProject.name}
                   </h3>
+                  <svg viewBox="0 0 360 28" className="hero-underline w-[55%] h-6 mt-2 overflow-visible" aria-hidden="true">
+                    <path d="M 0 18 C 35 2, 120 2, 180 13 S 290 24, 360 16" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                  </svg>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-xs font-bold text-emerald-400 block">{activeProject.speed}</span>
-                  <span className="text-[10px] text-cream-200 block">{activeProject.growth}</span>
+                  <span className="hero-speed text-xs font-bold block">{activeProject.speed}</span>
+                  <span className="hero-growth text-[10px] block">{activeProject.growth}</span>
                 </div>
               </div>
 
               {/* Showcase Image & Key Feature Details */}
               <div className="grid grid-cols-12 gap-4 items-center my-2">
-                <div className="col-span-7 space-y-2 text-left">
-                  <p className="text-[11px] text-warmNeutral-300 font-medium leading-relaxed">
+                <div className="col-span-7 text-left">
+                  <p className="hero-highlight text-[11px] font-medium leading-relaxed">
                     "{activeProject.highlightText}"
                   </p>
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-1.5 text-[10px] text-cream-200">
-                      <CheckCircle2 className="w-3 h-3 text-[#CE422B]" />
-                      <span>Custom React & TypeScript Code</span>
-                    </div>
-                    <div className="flex items-center space-x-1.5 text-[10px] text-cream-200">
-                      <CheckCircle2 className="w-3 h-3 text-[#CE422B]" />
-                      <span>Mobile Responsive Slot Booking</span>
+                  <div className="hero-feature-box mt-3 rounded-[2rem] border-[3px] p-3 pr-2 w-[110%] relative">
+                    <div className="space-y-1.5">
+                      <div className="hero-feature-item flex items-center space-x-1.5 text-[10px]">
+                        <span className="hero-check inline-flex h-4 w-4 items-center justify-center rounded-full border-2">
+                          <CheckCircle2 className="h-3 w-3 fill-current" />
+                        </span>
+                        <span>Custom React & TypeScript Code</span>
+                      </div>
+                      <div className="hero-feature-item flex items-center space-x-1.5 text-[10px]">
+                        <span className="hero-check inline-flex h-4 w-4 items-center justify-center rounded-full border-2">
+                          <CheckCircle2 className="h-3 w-3 fill-current" />
+                        </span>
+                        <span>Mobile Responsive Slot Booking</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -153,15 +162,15 @@ export const HeroDeviceMockup: React.FC = () => {
                   <img
                     src={activeProject.image}
                     alt={activeProject.name}
-                    className="w-28 sm:w-36 h-20 sm:h-28 object-cover rounded-xl shadow-2xl border border-white/20"
+                    className="w-28 sm:w-40 h-20 sm:h-32 object-cover rounded-xl shadow-2xl border border-white/20"
                   />
                 </div>
               </div>
 
               {/* Bottom Agency Guarantee */}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-warmNeutral-400 font-semibold">
+              <div className="hero-footer pt-2 border-t flex items-center justify-between text-[10px] font-semibold">
                 <span>Designed & Built by WebNest Solutions</span>
-                <span className="text-[#CE422B] flex items-center">
+                <span className="hero-case-link flex items-center">
                   Explore Case Study <ArrowRight className="w-3 h-3 ml-1" />
                 </span>
               </div>

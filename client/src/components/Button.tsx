@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-300 rounded-full focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed group';
 
   const variants = {
-    primary: 'bg-brandRed-500 hover:bg-brandRed-600 text-white shadow-md hover:-translate-y-0.5',
+    primary: 'bg-brandRed-500 hover:bg-brandRed-600 text-[#f8f3ee] shadow-md hover:-translate-y-0.5',
     secondary: 'bg-cream-200 hover:bg-cream-300 text-warmNeutral-900 border border-cream-300 hover:-translate-y-0.5',
     outline: 'bg-transparent border border-cream-400 hover:border-brandRed-500 text-warmNeutral-900 hover:text-brandRed-500 hover:-translate-y-0.5',
     ghost: 'bg-transparent text-warmNeutral-700 hover:text-brandRed-500 hover:bg-cream-200',

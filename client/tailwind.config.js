@@ -33,6 +33,7 @@ export default {
           200: '#EAE6DD',
           300: '#BCB6AA',
           500: '#6B665E', // Muted body text
+          600: '#57514C',
           700: '#3D3A35',
           900: '#1C1B19',
         }

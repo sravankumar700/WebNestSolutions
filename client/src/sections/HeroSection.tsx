@@ -9,19 +9,19 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenEnquiry }) => {
   return (
-    <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 bg-cream-100 overflow-hidden">
+    <section className="hero-theme relative pt-24 pb-16 lg:pt-28 lg:pb-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
           
           {/* Left Hero Content */}
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight text-warmNeutral-900 leading-[1.1]">
+          <div className="lg:col-span-5 space-y-6 text-left lg:pt-6">
+            <h1 className="hero-title text-[3.4rem] sm:text-[4.2rem] lg:text-[5.5rem] font-black font-display tracking-[-0.07em] leading-[0.9]">
               Build Your <br />
               Online Presence <br />
               with <span className="text-brandRed-500">Purpose.</span>
             </h1>
 
-            <p className="text-warmNeutral-500 text-base sm:text-lg max-w-xl leading-relaxed">
+            <p className="hero-copy text-base sm:text-lg max-w-[28rem] leading-relaxed">
               We design and develop clean, fast and modern websites that help businesses grow.
             </p>
 
@@ -30,6 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenEnquiry }) => {
               <Button
                 variant="primary"
                 size="lg"
+                className="px-7 py-3.5"
                 onClick={() => {
                   const el = document.getElementById('featured-projects');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -41,7 +42,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenEnquiry }) => {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-cream-400 text-warmNeutral-900 hover:bg-cream-200 hover:border-warmNeutral-700"
+                className="px-7 py-3.5 border-cream-400 text-warmNeutral-900 hover:bg-cream-200 hover:border-warmNeutral-700"
                 onClick={() => {
                   window.location.href = '/about';
                 }}
@@ -95,8 +96,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenEnquiry }) => {
           </div>
 
           {/* Right Hero Interactive WebNest Portfolio Device Showcase */}
-          <div className="lg:col-span-6 relative flex flex-col items-center justify-center">
-            <Hero3DCanvas />
+          <div className="lg:col-span-7 relative flex flex-col items-center justify-center lg:items-end lg:pr-2">
+            <div className="w-full max-w-[700px] lg:translate-x-[12px]">
+              <Hero3DCanvas />
+            </div>
           </div>
 
         </div>

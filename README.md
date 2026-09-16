@@ -121,7 +121,20 @@ CLIENT_URL=http://localhost:5173
 CLOUDINARY_CLOUD_NAME=webnest_cloud
 CLOUDINARY_API_KEY=1234567890
 CLOUDINARY_API_SECRET=webnest_cloudinary_secret
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-smtp-user
+SMTP_PASS=your-smtp-password
+SMTP_FROM=newsletter@example.com
+NEWSLETTER_ENABLED=false
+NEWSLETTER_SCHEDULE=0 9 * * 1,3,5
+NEWSLETTER_TIMEZONE=UTC
+NEWSLETTER_SUBJECT=WebNest weekly web insight
+NEWSLETTER_TEXT=Here is this week's web insight from WebNest Solutions.
 ```
+
+Set `NEWSLETTER_ENABLED=true` after configuring SMTP to send the newsletter every Monday, Wednesday, and Friday at 09:00 in `NEWSLETTER_TIMEZONE`. The HTML campaign body can be supplied through `NEWSLETTER_HTML` when richer formatting is needed.
 
 ---
 

@@ -9,13 +9,18 @@ server/node_modules/
 
 # ---- Environment Variables (NEVER commit secrets) ----
 .env
+.env.*
+!.env.example
 .env.local
 .env.development
 .env.production
 .env.test
 server/.env
+server/.env.*
+!server/.env.example
 client/.env
-client/.env.local
+client/.env.*
+!client/.env.example
 
 # ---- Build Outputs ----
 dist/
