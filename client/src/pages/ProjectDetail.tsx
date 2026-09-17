@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchProjectBySlug } from '../services/api';
 import { Project } from '../types';
-import { ExternalLink, Github, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { SEO } from '../components/SEO';
 import { CTASection } from '../sections/CTASection';
@@ -14,6 +14,7 @@ interface ProjectDetailProps {
 export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) => {
   const { slug } = useParams<{ slug: string }>();
   const [project, setProject] = useState<Project | null>(null);
+  const [selectedImage, setSelectedImage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -32,6 +33,10 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
     };
     loadProject();
   }, [slug]);
+
+  useEffect(() => {
+    if (project) setSelectedImage(project.coverImage);
+  }, [project]);
 
   if (loading) {
     return (
@@ -56,6 +61,18 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
     );
   }
 
+  const gallerySource = project.gallery?.length ? project.gallery : [project.coverImage];
+  const galleryImages = Array.from(
+    { length: Math.max(8, gallerySource.length) },
+    (_, index) => gallerySource[index % gallerySource.length]
+  );
+  const displayedFeatures = [
+    ...(project.features || []),
+    'Secure, dependable foundation',
+    'Responsive on every device',
+    'Fast, performance-ready experience',
+  ];
+
   return (
     <div className="bg-charcoal-950 text-cream-100 pt-28 pb-16">
       <SEO title={project.title} description={project.shortDescription} />
@@ -72,123 +89,81 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
         </Link>
 
         {/* Header Title */}
-        <div className="max-w-4xl space-y-4 mb-10">
+        <div className="space-y-4 mb-10">
           <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-brandRed-500/10 text-brandRed-500 border border-brandRed-500/30">
             {project.category}
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white">
-            {project.title}
-          </h1>
-          <p className="text-lg sm:text-xl text-warmNeutral-300 leading-relaxed">
-            {project.shortDescription}
-          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="space-y-4 max-w-4xl">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white">
+                {project.title}
+              </h1>
+              <p className="text-lg sm:text-xl text-warmNeutral-300 leading-relaxed">
+                {project.shortDescription}
+              </p>
+            </div>
 
-          {/* Action Links */}
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+            {/* Action Links */}
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noreferrer">
+              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex-shrink-0">
                 <Button variant="primary" showArrow={false}>
                   <span>Visit Live Website</span>
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
               </a>
             )}
-            {project.githubUrl && (
-              <a href={project.githubUrl} target="_blank" rel="noreferrer">
-                <Button variant="secondary" showArrow={false}>
-                  <Github className="w-4 h-4 mr-2" />
-                  <span>GitHub Repository</span>
-                </Button>
-              </a>
-            )}
           </div>
         </div>
 
-        {/* Cover Image Banner */}
-        <div className="rounded-3xl overflow-hidden border border-charcoal-800 shadow-2xl mb-16 aspect-[16/9] bg-charcoal-900">
-          <img
-            src={project.coverImage}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Overview & Story Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          <div className="lg:col-span-8 space-y-8">
-            {/* Story */}
-            <div className="bg-charcoal-900 border border-charcoal-800 rounded-2xl p-8 space-y-4">
-              <h2 className="text-2xl font-bold font-display text-white">The Challenge & Strategy</h2>
-              <p className="text-warmNeutral-300 leading-relaxed text-sm sm:text-base whitespace-pre-line">
-                {project.story || project.description}
-              </p>
-            </div>
-
-            {/* Features */}
-            {project.features && project.features.length > 0 && (
-              <div className="bg-charcoal-900 border border-charcoal-800 rounded-2xl p-8 space-y-4">
-                <h2 className="text-2xl font-bold font-display text-white">Key Features Delivered</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {project.features.map((feat, i) => (
-                    <div key={i} className="flex items-start space-x-3 text-sm text-cream-200">
-                      <CheckCircle2 className="w-5 h-5 text-brandRed-500 flex-shrink-0 mt-0.5" />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+        {/* Main project image with supporting gallery previews */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 rounded-3xl overflow-hidden mb-16 aspect-auto lg:aspect-[16/9]">
+          <div className="lg:col-span-3 min-h-[22rem] lg:min-h-0 rounded-3xl overflow-hidden border border-charcoal-800 shadow-2xl bg-charcoal-900">
+            <img
+              src={selectedImage || project.coverImage}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="bg-charcoal-900 border border-charcoal-800 rounded-2xl p-6 space-y-6">
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-warmNeutral-500 mb-2">
-                  Client / Industry
-                </h3>
-                <p className="text-white font-semibold text-base">{project.category}</p>
-              </div>
-
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-warmNeutral-500 mb-3">
-                  Technologies Used
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies?.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="text-xs px-3 py-1.5 rounded-lg bg-charcoal-800 text-cream-200 border border-charcoal-700 font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-charcoal-800">
-                <Button variant="primary" size="md" className="w-full" onClick={onOpenEnquiry}>
-                  Want a website like this?
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Gallery Grid */}
-        {project.gallery && project.gallery.length > 0 && (
-          <div className="space-y-6 mb-20">
-            <h2 className="text-2xl font-bold font-display text-white">Project Showcase Gallery</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {project.gallery.map((imgUrl, i) => (
-                <div key={i} className="rounded-2xl overflow-hidden border border-charcoal-800 bg-charcoal-900 aspect-video">
+          <div className="lg:col-span-1 min-w-0 rounded-2xl bg-charcoal-900/60 p-3 border border-charcoal-800">
+            <div className="grid grid-cols-2 grid-rows-4 gap-2 h-full">
+              {galleryImages.map((imgUrl, i) => (
+                <button
+                  key={`${imgUrl}-${i}`}
+                  type="button"
+                  onClick={() => setSelectedImage(imgUrl)}
+                  className={`min-w-0 min-h-0 rounded-xl overflow-hidden border bg-charcoal-900 shadow-xl transition-all duration-300 ${
+                    selectedImage === imgUrl ? 'border-brandRed-500 ring-2 ring-brandRed-500/40' : 'border-charcoal-700 hover:border-brandRed-500/70'
+                  }`}
+                  aria-label={`Show ${project.title} gallery image ${i + 1}`}
+                >
                   <img
                     src={imgUrl}
-                    alt={`${project.title} screenshot ${i + 1}`}
+                    alt={`${project.title} gallery preview ${i + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
+                </button>
+              ))}
+              </div>
+          </div>
+        </div>
+
+        {/* Key Features */}
+        {displayedFeatures.length > 0 && (
+          <div className="bg-charcoal-900 border border-charcoal-800 rounded-2xl p-8 space-y-5 mb-16">
+            <h2 className="text-2xl font-bold font-display text-white">Key Features Delivered</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {displayedFeatures.map((feat, i) => (
+                <div key={i} className="flex items-start space-x-3 text-sm text-cream-200">
+                  <CheckCircle2 className="w-5 h-5 text-brandRed-500 flex-shrink-0 mt-0.5" />
+                  <span>{feat}</span>
                 </div>
               ))}
+            </div>
+            <div className="pt-2">
+              <Button variant="primary" size="md" onClick={onOpenEnquiry}>
+                Want a website like this?
+              </Button>
             </div>
           </div>
         )}

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './Button';
 import { ThemeToggle } from './ThemeToggle';
-import blackLogo from '../assets/webnest-icon.png';
+import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 
 interface NavbarProps {
   theme: 'light' | 'dark';
@@ -54,11 +54,11 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme, onOpenEnqu
         <div className="flex items-center justify-between">
           
           {/* Left: Black WEBNEST logo mark + line-by-line text ("WebNest" / "SOLUTIONS") */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-5 group">
             <img
               src={blackLogo}
               alt="WebNest Logo Mark"
-              className="h-9 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className="brand-logo h-[54px] w-[54px] object-contain transition-transform duration-300 group-hover:scale-105"
             />
             <div className="flex flex-col text-left leading-none font-display">
               <span className="font-extrabold text-lg sm:text-xl text-warmNeutral-900 tracking-tight">

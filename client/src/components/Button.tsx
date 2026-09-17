@@ -34,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button className={clsx(baseStyles, variants[variant], sizes[size], className)} {...props}>
-      <span>{children}</span>
+      <span className="inline-flex items-center">{children}</span>
       {showArrow && (
         <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
       )}

@@ -5,7 +5,7 @@ import { Button } from '../components/Button';
 import { Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { ThemeToggle } from '../components/ThemeToggle';
-import blackLogo from '../assets/webnest-icon.png';
+import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 
 interface AdminLoginProps {
   theme: 'light' | 'dark';
@@ -14,8 +14,8 @@ interface AdminLoginProps {
 }
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ theme, onToggleTheme, onLoginSuccess }) => {
-  const [email, setEmail] = useState('admin@webnest.com');
-  const [password, setPassword] = useState('WebNest2026!Secret');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -48,9 +48,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ theme, onToggleTheme, on
         
         {/* Official Logo Header */}
         <div className="text-center space-y-3 flex flex-col items-center justify-center">
-          <div className="p-3 bg-white rounded-2xl inline-block mb-1 shadow-md">
-            <img src={blackLogo} alt="WebNest Logo Mark" className="h-10 w-auto object-contain" />
-          </div>
+          <img src={blackLogo} alt="WebNest Logo Mark" className="brand-logo h-12 w-auto object-contain mb-1" />
           <div className="leading-none font-display">
             <div className="font-extrabold text-2xl text-white tracking-tight">WebNest</div>
             <div className="font-bold text-xs text-warmNeutral-400 tracking-[0.2em] uppercase mt-1">SOLUTIONS</div>
@@ -73,7 +71,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ theme, onToggleTheme, on
               <input
                 type="email"
                 required
-                placeholder="admin@webnest.com"
+                placeholder="Your admin email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-charcoal-950 border border-charcoal-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors"

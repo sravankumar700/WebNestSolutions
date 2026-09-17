@@ -3,7 +3,7 @@ import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
 import { CTASection } from '../sections/CTASection';
 import { ShieldCheck, Award, Zap, Code2, Play, Pause, Volume2, VolumeX, Sparkles } from 'lucide-react';
-import blackLogo from '../assets/webnest-icon.png';
+import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 
 interface AboutPageProps {
   onOpenEnquiry: () => void;
@@ -39,7 +39,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Story & Work Process Video Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center mb-16">
           
           {/* Left Narrative */}
           <div className="lg:col-span-6 space-y-6">
@@ -50,27 +50,25 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
               subtitle="WebNest Solutions was founded with a singular mission: to bridge the gap between high-end aesthetic design and robust technical engineering."
               lightMode={true}
             />
-            <p className="text-warmNeutral-700 leading-relaxed text-sm sm:text-base">
-              In a digital landscape flooded with slow templates and repetitive SaaS designs, WebNest stands out by engineering bespoke, lightning-fast web applications. Watch our agency process video to see how we turn concepts into production platforms.
+            <p className="text-warmNeutral-700 leading-relaxed text-sm sm:text-base max-w-xl">
+              We combine thoughtful design with dependable engineering to build digital experiences that are clear, fast, and ready to grow with your business.
             </p>
 
-            <div className="grid grid-cols-2 gap-4 pt-2 text-xs font-semibold text-warmNeutral-900">
-              <div className="flex items-center space-x-2 bg-white p-3 rounded-xl border border-cream-300 shadow-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs font-semibold text-warmNeutral-900">
+              <div className="flex items-center space-x-2 bg-white p-3 rounded-xl border border-cream-300">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#CE422B]" />
                 <span>Bespoke UI Design</span>
               </div>
-              <div className="flex items-center space-x-2 bg-white p-3 rounded-xl border border-cream-300 shadow-sm">
+              <div className="flex items-center space-x-2 bg-white p-3 rounded-xl border border-cream-300">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
                 <span>React & Node.js Code</span>
               </div>
             </div>
           </div>
 
-          {/* Right Autoplay Agency Process Video Box */}
+          {/* Right Agency Process Video */}
           <div className="lg:col-span-6 relative">
-            <div className="relative bg-charcoal-900 text-white rounded-3xl overflow-hidden border border-charcoal-800 shadow-2xl group">
-              
-              {/* Autoplay Video Stream */}
+            <div className="relative bg-charcoal-900 text-white rounded-2xl overflow-hidden border border-charcoal-800 shadow-xl group">
               <div className="relative aspect-[16/10] bg-black overflow-hidden">
                 <video
                   ref={videoRef}
@@ -81,7 +79,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
                   preload="auto"
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
-                  className="w-full h-full object-cover opacity-90 transition-opacity duration-300 group-hover:opacity-100"
+                  className="w-full h-full object-cover"
                   poster="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"
                 >
                   <source
@@ -91,62 +89,33 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenEnquiry }) => {
                   Your browser does not support video playback.
                 </video>
 
-                {/* Video Top Header Overlay */}
-                <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
-                  <div className="flex items-center space-x-2 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-xs">
-                    <span className="w-2 h-2 rounded-full bg-[#CE422B] animate-pulse" />
-                    <span className="font-semibold text-white">WebNest Work Process</span>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={toggleMute}
-                      className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
-                      title={isMuted ? 'Unmute' : 'Mute'}
-                    >
-                      {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-                    </button>
-                    <button
-                      onClick={togglePlay}
-                      className="w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
-                      title={isPlaying ? 'Pause' : 'Play'}
-                    >
-                      {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Video Bottom Info Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20 flex items-end justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
-                      <div className="p-1 bg-white rounded-md">
-                        <img src={blackLogo} alt="WebNest Logo" className="h-4 w-auto object-contain" />
-                      </div>
-                      <span className="font-bold text-xs text-white">Engineering Meets Creative Vision</span>
-                    </div>
-                    <p className="text-[11px] text-warmNeutral-300 max-w-sm">
-                      Watch how our design & development team turns your business strategy into custom code.
-                    </p>
-                  </div>
-
-                  <div className="hidden sm:flex items-center space-x-3 text-[10px] font-bold text-emerald-400 bg-black/60 px-3 py-1.5 rounded-xl border border-white/10">
-                    <Sparkles className="w-3 h-3 text-[#CE422B]" />
-                    <span>Live Studio Process</span>
-                  </div>
+                <div className="absolute top-4 right-4 flex items-center space-x-2 z-20">
+                  <button
+                    onClick={toggleMute}
+                    className="w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+                    title={isMuted ? 'Unmute' : 'Mute'}
+                  >
+                    {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={togglePlay}
+                    className="w-9 h-9 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+                    title={isPlaying ? 'Pause' : 'Play'}
+                  >
+                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Bottom Metrics Bar */}
-              <div className="p-4 bg-charcoal-950 border-t border-charcoal-800 grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <span className="text-xl font-bold font-display text-[#CE422B]">100%</span>
-                  <p className="text-[11px] text-warmNeutral-400">Custom Code Quality</p>
+              <div className="p-5 bg-charcoal-950 border-t border-charcoal-800 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <img src={blackLogo} alt="WebNest Logo" className="brand-logo h-8 w-auto object-contain" />
+                  <div>
+                    <p className="font-bold text-sm text-white">Our process in action</p>
+                    <p className="text-xs text-warmNeutral-400">From strategy to polished code</p>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-xl font-bold font-display text-[#CE422B]">95+</span>
-                  <p className="text-[11px] text-warmNeutral-400">Avg PageSpeed Score</p>
-                </div>
+                <Sparkles className="w-5 h-5 text-[#CE422B] flex-shrink-0" />
               </div>
 
             </div>

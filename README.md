@@ -49,7 +49,7 @@ npm install
 ---
 
 ### Step 2: Seed Initial Database Data
-Populate MongoDB with the default Admin user (`admin@webnest.com`), realistic portfolio projects (*FryGuy*, *SalonX*, *Zephyr Interiors*), agency services, testimonials, and site settings.
+Populate MongoDB with the admin user configured by `ADMIN_EMAIL`, realistic portfolio projects (*FryGuy*, *SalonX*, *Zephyr Interiors*), agency services, testimonials, and site settings.
 
 ```bash
 # From root workspace:
@@ -60,9 +60,7 @@ cd server
 npm run seed
 ```
 
-> **Default Admin Credentials:**
-> - **Email**: `admin@webnest.com`
-> - **Password**: `WebNest2026!Secret`
+> **Admin Credentials:** Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `server/.env` before running the seed command. Never commit these values.
 
 ---
 

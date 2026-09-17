@@ -3,9 +3,10 @@ import React from 'react';
 export const TrustSection: React.FC = () => {
   const logos = [
     { name: 'Hair & Glow', font: 'font-display font-extrabold text-lg tracking-tight' },
-    { name: 'Street Barber', font: 'font-sans font-bold tracking-wide text-sm' },
-    { name: 'FryGuy Burgers', font: 'font-display font-semibold text-base' },
-    { name: 'Jaswanth Interiors', font: 'font-sans font-semibold text-sm tracking-wide' },
+    { name: 'Street Barber', font: 'font-display font-extrabold text-lg tracking-tight' },
+    { name: 'My Home Interiors', font: 'font-display font-extrabold text-lg tracking-tight' },
+    { name: 'Fry Guy', font: 'font-display font-extrabold text-lg tracking-tight' },
+
   ];
 
   return (

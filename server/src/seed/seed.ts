@@ -9,6 +9,13 @@ import { SiteSettings } from '../models/SiteSettings';
 
 dotenv.config();
 
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
+
+if (!adminEmail || !adminPassword) {
+  throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD must be set in server/.env before seeding.');
+}
+
 const seedData = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/webnest_db';
@@ -18,14 +25,14 @@ const seedData = async () => {
     // 1. Seed Admin
     await AdminUser.deleteMany({});
     const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash('WebNest2026!Secret', salt);
+    const passwordHash = await bcrypt.hash(adminPassword, salt);
     await AdminUser.create({
-      email: 'admin@webnest.com',
+      email: adminEmail,
       passwordHash,
       name: 'WebNest Admin',
       role: 'superadmin',
     });
-    console.log('[Seed]: Admin user seeded (admin@webnest.com / WebNest2026!Secret)');
+    console.log(`[Seed]: Admin user seeded (${adminEmail})`);
 
     // 2. Seed Projects (Including Hair & Glow and Street Barber)
     await Project.deleteMany({});
@@ -196,24 +203,24 @@ const seedData = async () => {
     // 5. Seed Site Settings
     await SiteSettings.deleteMany({});
     await SiteSettings.create({
-      siteName: 'WebNest Solutions',
-      tagline: 'Ideas into Impactful Websites.',
-      description: 'We design and develop modern, fast and conversion-focused websites for businesses, brands and creators.',
-      email: 'contact@webnestsolutions.com',
-      phone: '+91 98765 43210',
+      siteName: process.env.SITE_NAME || 'Your Company Name',
+      tagline: process.env.SITE_TAGLINE || 'Your company tagline',
+      description: process.env.SITE_DESCRIPTION || 'Your company description',
+      email: process.env.CONTACT_EMAIL || 'contact@example.com',
+      phone: process.env.CONTACT_PHONE || '+1 000 000 0000',
       socialLinks: {
-        github: 'https://github.com/webnest',
-        linkedin: 'https://linkedin.com/company/webnest-solutions',
-        twitter: 'https://twitter.com/webnest',
-        instagram: 'https://instagram.com/webnestsolutions',
+        github: process.env.SOCIAL_GITHUB || '',
+        linkedin: process.env.SOCIAL_LINKEDIN || '',
+        twitter: process.env.SOCIAL_TWITTER || '',
+        instagram: process.env.SOCIAL_INSTAGRAM || '',
       },
-      footerText: '© 2026 WebNest Solutions. All rights reserved. Built with passion in India ❤️',
-      ctaText: 'Start a Project →',
-      salesPeople: ['Aisha Kumar', 'Rohan Verma', 'Priya Nair', 'Dev Shah'],
+      footerText: process.env.FOOTER_TEXT || 'Copyright Your Company. All rights reserved.',
+      ctaText: process.env.CTA_TEXT || 'Start a Project',
+      salesPeople: [],
       whatsappEnabled: false,
-      whatsappAlertNumber: '+91 98765 43210',
+      whatsappAlertNumber: process.env.CONTACT_PHONE || '',
       whatsappCustomerTemplate: 'lead_confirmation',
-      whatsappWebhookVerifyToken: 'webnest-whatsapp-webhook',
+      whatsappWebhookVerifyToken: process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN || '',
     });
     console.log('[Seed]: Site settings seeded');
 

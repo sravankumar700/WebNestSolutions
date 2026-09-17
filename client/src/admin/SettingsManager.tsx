@@ -9,8 +9,8 @@ export const SettingsManager: React.FC = () => {
     siteName: 'WebNest Solutions',
     tagline: 'Ideas into Impactful Websites.',
     description: 'We design and develop modern, fast and conversion-focused websites for businesses, brands and creators.',
-    email: 'hello@webnestsolutions.com',
-    phone: '+91 98765 43210',
+    email: 'contact@example.com',
+    phone: '+1 000 000 0000',
     socialLinks: {
       github: 'https://github.com/webnest',
       linkedin: 'https://linkedin.com/company/webnest',
@@ -21,7 +21,7 @@ export const SettingsManager: React.FC = () => {
     ctaText: 'Start a Project →',
     salesPeople: ['Aisha Kumar', 'Rohan Verma', 'Priya Nair', 'Dev Shah'],
     whatsappEnabled: false,
-    whatsappAlertNumber: '+91 98765 43210',
+    whatsappAlertNumber: '',
     whatsappCustomerTemplate: 'lead_confirmation',
     whatsappWebhookVerifyToken: 'webnest-whatsapp-webhook',
   });
@@ -170,7 +170,7 @@ export const SettingsManager: React.FC = () => {
                 value={formData.whatsappAlertNumber || ''}
                 onChange={(e) => setFormData({ ...formData, whatsappAlertNumber: e.target.value })}
                 className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3 py-1.5 text-xs text-white"
-                placeholder="+91 98765 43210"
+                placeholder="Configured contact number"
               />
             </div>
             <div>

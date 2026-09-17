@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Instagram, Youtube, ArrowRight, Check } from 'lucide-react';
-import blackLogo from '../assets/webnest-icon.png';
+import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 import { subscribeToNewsletter } from '../services/api';
 
 interface FooterProps {
@@ -42,14 +42,12 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
           
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="p-2 bg-white rounded-xl flex items-center justify-center">
-                <img
-                  src={blackLogo}
-                  alt="WebNest Logo Mark"
-                  className="h-8 w-auto object-contain"
-                />
-              </div>
+            <Link to="/" className="flex items-center space-x-5 group">
+              <img
+                src={blackLogo}
+                alt="WebNest Logo Mark"
+                  className="brand-logo h-10 w-auto object-contain"
+              />
               <div className="flex flex-col text-left leading-none font-display">
                 <span className="font-extrabold text-xl text-white tracking-tight">
                   WebNest

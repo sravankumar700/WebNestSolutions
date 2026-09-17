@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
 import { Button } from '../components/Button';
-import { submitEnquiry } from '../services/api';
+import { fetchSiteSettings, submitEnquiry } from '../services/api';
+import { SiteSettingsData } from '../types';
 import { Mail, Phone, MapPin, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 export const ContactPage: React.FC = () => {
+  const [siteSettings, setSiteSettings] = useState<Partial<SiteSettingsData>>({});
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +22,16 @@ export const ContactPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchSiteSettings()
+      .then((res) => setSiteSettings(res.data.settings || {}))
+      .catch(() => undefined);
+  }, []);
+
+  const contactEmail = siteSettings.email || 'contact@example.com';
+  const contactPhone = siteSettings.phone || '+1 000 000 0000';
+  const contactPhoneHref = contactPhone.replace(/[^\d+]/g, '');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,8 +90,8 @@ export const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-xs text-warmNeutral-500 uppercase tracking-wider">Email Us</p>
-                    <a href="mailto:hello@webnestsolutions.com" className="text-white hover:text-brandRed-500 text-sm font-semibold transition-colors">
-                      hello@webnestsolutions.com
+                    <a href={`mailto:${contactEmail}`} className="text-white hover:text-brandRed-500 text-sm font-semibold transition-colors">
+                      {contactEmail}
                     </a>
                   </div>
                 </div>
@@ -90,8 +102,8 @@ export const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-xs text-warmNeutral-500 uppercase tracking-wider">Call Us</p>
-                    <a href="tel:+919876543210" className="text-white hover:text-brandRed-500 text-sm font-semibold transition-colors">
-                      +91 98765 43210
+                    <a href={`tel:${contactPhoneHref}`} className="text-white hover:text-brandRed-500 text-sm font-semibold transition-colors">
+                      {contactPhone}
                     </a>
                   </div>
                 </div>
@@ -171,7 +183,7 @@ export const ContactPage: React.FC = () => {
                     <label className="block text-xs font-semibold text-cream-200 mb-1">Phone</label>
                     <input
                       type="tel"
-                      placeholder="+91 98765 43210"
+                      placeholder="Your phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none"

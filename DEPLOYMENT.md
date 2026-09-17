@@ -161,7 +161,7 @@ If you prefer **Netlify** over Vercel:
 
 Before going live, verify the following:
 
-- [ ] **Admin Account**: Verify admin login (`admin@webnest.com`) works in production.
+- [ ] **Admin Account**: Verify the admin email configured by `ADMIN_EMAIL` works in production.
 - [ ] **Enquiry Submissions**: Test submitting a lead on `/contact` or via the popup modal and confirm it saves in Atlas.
 - [ ] **Admin Status Switcher**: Verify changing enquiry status to `Contacted` works in `/admin`.
 - [ ] **Project CRUD**: Create a test project and upload an image via Cloudinary.

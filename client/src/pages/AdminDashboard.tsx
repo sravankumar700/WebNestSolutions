@@ -22,7 +22,7 @@ import {
   TrendingUp,
   CircleDashed,
 } from 'lucide-react';
-import blackLogo from '../assets/webnest-icon.png';
+import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 
 interface AdminDashboardProps {
   user: any;
@@ -124,9 +124,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ user, theme, onT
       {/* Top Admin Header */}
       <header className="bg-charcoal-900 border-b border-charcoal-800 px-3 py-2.5 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-1.5 bg-white rounded-lg flex items-center justify-center">
-            <img src={blackLogo} alt="WebNest Logo Mark" className="h-6 w-auto object-contain" />
-          </div>
+          <img src={blackLogo} alt="WebNest Logo Mark" className="brand-logo h-8 w-auto object-contain" />
           <div className="flex flex-col text-left leading-none font-display">
             <span className="font-extrabold text-sm text-white tracking-tight">WebNest</span>
             <span className="font-bold text-[9px] text-warmNeutral-400 tracking-[0.2em] uppercase mt-0.5">SOLUTIONS</span>

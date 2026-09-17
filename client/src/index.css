@@ -57,6 +57,15 @@
   color-scheme: light;
 }
 
+.brand-logo {
+  display: block;
+  object-fit: contain;
+}
+
+[data-theme='dark'] .brand-logo {
+  filter: invert(1) brightness(1.08);
+}
+
 /* Custom Soft Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
