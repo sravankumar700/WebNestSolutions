@@ -11,6 +11,29 @@ interface ProjectDetailProps {
   onOpenEnquiry: () => void;
 }
 
+const galleryFallbacks: Record<string, string[]> = {
+  'hair-and-glow': [
+    'https://images.unsplash.com/photo-1526045478516-99145907023c?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=1200&auto=format&fit=crop',
+  ],
+  'street-barber': [
+    'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1200&auto=format&fit=crop',
+  ],
+  fryguy: [
+    'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1200&auto=format&fit=crop',
+  ],
+  'zephyr-interiors': [
+    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?q=80&w=1200&auto=format&fit=crop',
+  ],
+};
+
 export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) => {
   const { slug } = useParams<{ slug: string }>();
   const [project, setProject] = useState<Project | null>(null);
@@ -61,11 +84,16 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
     );
   }
 
-  const gallerySource = project.gallery?.length ? project.gallery : [project.coverImage];
-  const galleryImages = Array.from(
-    { length: Math.max(8, gallerySource.length) },
-    (_, index) => gallerySource[index % gallerySource.length]
-  );
+  const imageKey = (url: string) => {
+    try {
+      return new URL(url).pathname;
+    } catch {
+      return url;
+    }
+  };
+  const galleryImages = [project.coverImage, ...(project.gallery || []), ...(galleryFallbacks[project.slug] || [])]
+    .filter((imageUrl, index, images) => images.findIndex((candidate) => imageKey(candidate) === imageKey(imageUrl)) === index)
+    .slice(0, 5);
   const displayedFeatures = [
     ...(project.features || []),
     'Secure, dependable foundation',
@@ -116,8 +144,8 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
         </div>
 
         {/* Main project image with supporting gallery previews */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 rounded-3xl overflow-hidden mb-16 aspect-auto lg:aspect-[16/9]">
-          <div className="lg:col-span-3 min-h-[22rem] lg:min-h-0 rounded-3xl overflow-hidden border border-charcoal-800 shadow-2xl bg-charcoal-900">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 rounded-3xl overflow-hidden mb-16">
+          <div className="lg:col-span-3 min-h-[22rem] lg:min-h-0 aspect-[16/9] lg:aspect-auto rounded-3xl overflow-hidden border border-charcoal-800 shadow-2xl bg-charcoal-900">
             <img
               src={selectedImage || project.coverImage}
               alt={project.title}
@@ -125,14 +153,14 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
             />
           </div>
 
-          <div className="lg:col-span-1 min-w-0 rounded-2xl bg-charcoal-900/60 p-3 border border-charcoal-800">
-            <div className="grid grid-cols-2 grid-rows-4 gap-2 h-full">
+          <div className="lg:col-span-1 min-w-0 max-h-[640px] overflow-y-auto rounded-2xl bg-charcoal-900/60 p-3 border border-charcoal-800">
+            <div className="grid grid-rows-5 gap-3">
               {galleryImages.map((imgUrl, i) => (
                 <button
                   key={`${imgUrl}-${i}`}
                   type="button"
                   onClick={() => setSelectedImage(imgUrl)}
-                  className={`min-w-0 min-h-0 rounded-xl overflow-hidden border bg-charcoal-900 shadow-xl transition-all duration-300 ${
+                  className={`w-full max-w-[300px] aspect-[2/1] mx-auto min-w-0 rounded-xl overflow-hidden border bg-charcoal-900 shadow-xl transition-all duration-300 ${
                     selectedImage === imgUrl ? 'border-brandRed-500 ring-2 ring-brandRed-500/40' : 'border-charcoal-700 hover:border-brandRed-500/70'
                   }`}
                   aria-label={`Show ${project.title} gallery image ${i + 1}`}
