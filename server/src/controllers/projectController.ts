@@ -1,6 +1,27 @@
 import { Request, Response } from 'express';
 import { Project } from '../models/Project';
 
+const getProjectImages = (projectData: any): string[] => [
+  projectData.coverImage,
+  ...(Array.isArray(projectData.gallery) ? projectData.gallery : []),
+].filter(Boolean);
+
+const findImageConflict = async (images: string[], projectId?: string) => {
+  const uniqueImages = new Set(images);
+  if (uniqueImages.size !== images.length) return 'A project cannot reuse an image within its own gallery.';
+
+  const query: any = {
+    $or: [
+      { coverImage: { $in: images } },
+      { gallery: { $in: images } },
+    ],
+  };
+  if (projectId) query._id = { $ne: projectId };
+
+  const conflict = await Project.findOne(query).select('title').lean();
+  return conflict ? `Image already belongs to project "${conflict.title}".` : null;
+};
+
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const { category, featured, all } = req.query;
@@ -58,6 +79,9 @@ export const createProject = async (req: Request, res: Response) => {
       projectData.slug = projectData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     }
 
+    const imageConflict = await findImageConflict(getProjectImages(projectData));
+    if (imageConflict) return res.status(400).json({ message: imageConflict });
+
     const project = new Project(projectData);
     await project.save();
     return res.status(201).json({ message: 'Project created successfully.', project });
@@ -69,6 +93,9 @@ export const createProject = async (req: Request, res: Response) => {
 export const updateProject = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const imageConflict = await findImageConflict(getProjectImages(req.body), id);
+    if (imageConflict) return res.status(400).json({ message: imageConflict });
+
     const project = await Project.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
 
     if (!project) {
