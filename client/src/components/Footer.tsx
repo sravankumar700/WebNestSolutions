@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Linkedin, Instagram, Youtube, ArrowRight, Check } from 'lucide-react';
+import { Github, Linkedin, Instagram, Youtube, ArrowRight, Check, Loader2 } from 'lucide-react';
 import blackLogo from '../assets/webnest-icon-removebg-preview.png';
 import { subscribeToNewsletter } from '../services/api';
 
@@ -20,18 +20,29 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterError, setNewsletterError] = useState('');
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsletterEmail) {
-      try {
-        await subscribeToNewsletter(newsletterEmail);
-      } catch (error) {
-        return;
-      }
+    const email = newsletterEmail.trim();
+    if (!email || newsletterLoading) return;
+
+    setNewsletterLoading(true);
+    setNewsletterError('');
+
+    try {
+      await subscribeToNewsletter(email);
       setSubscribed(true);
       setNewsletterEmail('');
       setTimeout(() => setSubscribed(false), 4000);
+    } catch (error: any) {
+      setNewsletterError(
+        error.response?.data?.message ||
+          'We could not complete your subscription. Please try again.'
+      );
+    } finally {
+      setNewsletterLoading(false);
     }
   };
 
@@ -183,24 +194,36 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                 <span>Thank you for subscribing!</span>
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="relative">
-                <input
-                  type="email"
-                  required
-                  aria-label="Newsletter email address"
-                  placeholder="Your email address"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2 text-xs text-white placeholder-warmNeutral-500 focus:outline-none focus:border-brandRed-500 transition-colors pr-10"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1 top-1 bottom-1 w-7 bg-brandRed-500 hover:bg-brandRed-600 text-white rounded flex items-center justify-center transition-colors"
-                  aria-label="Subscribe"
-                >
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </form>
+              <>
+                <form onSubmit={handleSubscribe} className="relative">
+                  <input
+                    type="email"
+                    required
+                    aria-label="Newsletter email address"
+                    placeholder="Your email address"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2 text-xs text-white placeholder-warmNeutral-500 focus:outline-none focus:border-brandRed-500 transition-colors pr-10"
+                  />
+                  <button
+                    type="submit"
+                    disabled={newsletterLoading}
+                    className="absolute right-1 top-1 bottom-1 w-7 bg-brandRed-500 hover:bg-brandRed-600 text-white rounded flex items-center justify-center transition-colors"
+                    aria-label="Subscribe"
+                  >
+                    {newsletterLoading ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                </form>
+                {newsletterError && (
+                  <p className="mt-2 text-[11px] text-red-400" role="alert">
+                    {newsletterError}
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>
