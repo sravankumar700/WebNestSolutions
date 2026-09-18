@@ -16,6 +16,7 @@ import newsletterRoutes from './routes/newsletterRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import { verifyWebhook } from './services/whatsappService';
 import { startNewsletterScheduler } from './services/newsletterScheduler';
+import { verifyEmailTransport } from './services/emailService';
 
 dotenv.config();
 
@@ -25,6 +26,9 @@ const PORT = process.env.PORT || 5000;
 // Connect Database
 connectDB();
 startNewsletterScheduler();
+void verifyEmailTransport().catch((error: any) => {
+  console.error('[Email] SMTP connection verification failed:', error);
+});
 
 // Security & Parsing Middlewares
 app.use(

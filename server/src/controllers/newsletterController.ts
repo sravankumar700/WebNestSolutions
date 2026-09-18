@@ -17,14 +17,24 @@ export const subscribeToNewsletter = async (req: Request, res: Response) => {
       return res.status(503).json({ message: 'Newsletter signup is temporarily unavailable.' });
     }
 
-    const existingSubscriber = await NewsletterSubscriber.exists({ email });
+    const subscriber = await NewsletterSubscriber.findOneAndUpdate(
+      { email },
+      { $setOnInsert: { email, subscribedAt: new Date() } },
+      { new: true, upsert: true }
+    );
 
-    if (!existingSubscriber) {
-      await NewsletterSubscriber.create({ email, subscribedAt: new Date() });
+    if (!subscriber.welcomeEmailSent) {
       try {
         await sendNewsletterWelcomeEmail(email);
+        await NewsletterSubscriber.updateOne(
+          { _id: subscriber._id },
+          { $set: { welcomeEmailSent: true, welcomeEmailSentAt: new Date() } }
+        );
       } catch (emailError: any) {
-        console.warn('[Newsletter] Confirmation email failed:', emailError.message);
+        console.error('[Newsletter] Confirmation email failed:', emailError);
+        return res.status(502).json({
+          message: 'Subscription could not be completed because the confirmation email failed. Please try again.',
+        });
       }
     }
 

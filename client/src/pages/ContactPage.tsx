@@ -14,11 +14,9 @@ export const ContactPage: React.FC = () => {
     phone: '',
     businessName: '',
     service: 'Business Website',
-    budget: '$1,000 - $3,000',
-    offerCode: '',
-    message: '',
   });
 
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -39,7 +37,7 @@ export const ContactPage: React.FC = () => {
     setError('');
 
     try {
-      await submitEnquiry(formData);
+      await submitEnquiry({ ...formData, message: 'Quotation request' });
       setSuccess(true);
       setFormData({
         name: '',
@@ -47,10 +45,8 @@ export const ContactPage: React.FC = () => {
         phone: '',
         businessName: '',
         service: 'Business Website',
-        budget: '$1,000 - $3,000',
-        offerCode: '',
-        message: '',
       });
+      setAcceptedTerms(false);
     } catch (err: any) {
       console.error('Enquiry submit failed:', err);
       setError(
@@ -180,9 +176,10 @@ export const ContactPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-cream-200 mb-1">Phone</label>
+                    <label className="block text-xs font-semibold text-cream-200 mb-1">Phone *</label>
                     <input
                       type="tel"
+                      required
                       placeholder="Your phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -190,9 +187,10 @@ export const ContactPage: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-cream-200 mb-1">Business Name</label>
+                    <label className="block text-xs font-semibold text-cream-200 mb-1">Business Name *</label>
                     <input
                       type="text"
+                      required
                       placeholder="Your Company / Brand"
                       value={formData.businessName}
                       onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
@@ -201,59 +199,34 @@ export const ContactPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-cream-200 mb-1">Service Type</label>
-                    <select
-                      value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none"
-                    >
-                      <option value="Business Website">Business Website</option>
-                      <option value="Restaurant Website">Restaurant Website</option>
-                      <option value="E-commerce Store">E-commerce Store</option>
-                      <option value="Portfolio Website">Portfolio Website</option>
-                      <option value="Landing Page">Landing Page</option>
-                      <option value="Custom Web Solution">Custom Web Solution</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-cream-200 mb-1">Budget</label>
-                    <select
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none"
-                    >
-                      <option value="Under $1,000">Under $1,000</option>
-                      <option value="$1,000 - $3,000">$1,000 - $3,000</option>
-                      <option value="$3,000 - $5,000">$3,000 - $5,000</option>
-                      <option value="$5,000+">$5,000+</option>
-                    </select>
-                  </div>
-                </div>
-
                 <div>
-                  <label className="block text-xs font-semibold text-cream-200 mb-1">Newsletter Offer Code</label>
-                  <input
-                    type="text"
-                    placeholder="WEBNEST10"
-                    value={formData.offerCode}
-                    onChange={(e) => setFormData({ ...formData, offerCode: e.target.value })}
+                  <label className="block text-xs font-semibold text-cream-200 mb-1">Service Type</label>
+                  <select
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none"
-                  />
-                  <p className="text-[11px] text-warmNeutral-500 mt-1">Use WEBNEST10 for 10% off your website quotation.</p>
+                  >
+                    <option value="Business Website">Business Website</option>
+                    <option value="Restaurant Website">Restaurant Website</option>
+                    <option value="E-commerce Store">E-commerce Store</option>
+                    <option value="Portfolio Website">Portfolio Website</option>
+                    <option value="Landing Page">Landing Page</option>
+                    <option value="Custom Web Solution">Custom Web Solution</option>
+                  </select>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-cream-200 mb-1">Message *</label>
-                  <textarea
+                <div className="flex items-start gap-3 pt-1">
+                  <input
+                    id="contact-terms"
+                    type="checkbox"
                     required
-                    rows={4}
-                    placeholder="Tell us about your project requirements and goals..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-charcoal-950 border border-charcoal-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:border-brandRed-500 focus:outline-none resize-none"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 accent-brandRed-500"
                   />
+                  <label htmlFor="contact-terms" className="text-xs leading-relaxed text-warmNeutral-300">
+                    I accept the terms and conditions and consent to being contacted about this quotation. *
+                  </label>
                 </div>
 
                 <Button type="submit" variant="primary" size="lg" className="w-full" disabled={loading}>

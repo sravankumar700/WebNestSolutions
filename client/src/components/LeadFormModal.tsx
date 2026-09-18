@@ -20,11 +20,9 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
     phone: '',
     businessName: '',
     service: defaultService,
-    budget: '$1,000 - $3,000',
-    offerCode: '',
-    message: '',
   });
 
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -37,7 +35,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
     setError('');
 
     try {
-      await submitEnquiry(formData);
+      await submitEnquiry({ ...formData, message: 'Quotation request' });
       setSuccess(true);
       setFormData({
         name: '',
@@ -45,10 +43,8 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
         phone: '',
         businessName: '',
         service: defaultService,
-        budget: '$1,000 - $3,000',
-        offerCode: '',
-        message: '',
       });
+      setAcceptedTerms(false);
     } catch (err: any) {
       console.error('Enquiry submit failed:', err);
       setError(
@@ -146,10 +142,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                    Phone Number
+                    Phone Number *
                   </label>
                   <input
                     type="tel"
+                    required
                     placeholder="+1 (555) 000-0000"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -159,10 +156,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
 
                 <div>
                   <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                    Business / Brand Name
+                    Business / Brand Name *
                   </label>
                   <input
                     type="text"
+                    required
                     placeholder="Apex Innovations"
                     value={formData.businessName}
                     onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
@@ -171,68 +169,36 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                    Service Required
-                  </label>
-                  <select
-                    value={formData.service}
-                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                    className="w-full bg-charcoal-950 border border-charcoal-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors"
-                  >
-                    <option value="Business Website">Business Website</option>
-                    <option value="Restaurant Website">Restaurant Website</option>
-                    <option value="E-commerce Store">E-commerce Store</option>
-                    <option value="Portfolio Website">Portfolio Website</option>
-                    <option value="Landing Page">Landing Page</option>
-                    <option value="Custom Web Solution">Custom Web Solution</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                    Estimated Budget
-                  </label>
-                  <select
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full bg-charcoal-950 border border-charcoal-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors"
-                  >
-                    <option value="Under $1,000">Under $1,000</option>
-                    <option value="$1,000 - $3,000">$1,000 - $3,000</option>
-                    <option value="$3,000 - $5,000">$3,000 - $5,000</option>
-                    <option value="$5,000+">$5,000+</option>
-                  </select>
-                </div>
-              </div>
-
               <div>
                 <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                  Newsletter Offer Code
+                  Service Required
                 </label>
-                <input
-                  type="text"
-                  placeholder="WEBNEST10"
-                  value={formData.offerCode}
-                  onChange={(e) => setFormData({ ...formData, offerCode: e.target.value })}
+                <select
+                  value={formData.service}
+                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                   className="w-full bg-charcoal-950 border border-charcoal-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors"
-                />
-                <p className="text-[11px] text-warmNeutral-500 mt-1">Newsletter subscribers can use WEBNEST10 for 10% off a quotation.</p>
+                >
+                  <option value="Business Website">Business Website</option>
+                  <option value="Restaurant Website">Restaurant Website</option>
+                  <option value="E-commerce Store">E-commerce Store</option>
+                  <option value="Portfolio Website">Portfolio Website</option>
+                  <option value="Landing Page">Landing Page</option>
+                  <option value="Custom Web Solution">Custom Web Solution</option>
+                </select>
               </div>
 
-              <div>
-                <label className="block text-xs font-medium text-cream-300 mb-1.5">
-                  Project Details / Message *
-                </label>
-                <textarea
+              <div className="flex items-start gap-3 pt-1">
+                <input
+                  id="lead-terms"
+                  type="checkbox"
                   required
-                  rows={4}
-                  placeholder="Describe your project, timeline, or target audience..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-charcoal-950 border border-charcoal-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brandRed-500 transition-colors resize-none"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 accent-brandRed-500"
                 />
+                <label htmlFor="lead-terms" className="text-xs leading-relaxed text-warmNeutral-300">
+                  I accept the terms and conditions and consent to being contacted about this quotation. *
+                </label>
               </div>
 
               <div className="pt-2">
