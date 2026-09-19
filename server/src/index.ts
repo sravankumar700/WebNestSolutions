@@ -23,6 +23,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Render/Vercel proxy headers must be trusted so rate limiting sees the visitor IP.
+app.set('trust proxy', 1);
+
 // Connect Database
 connectDB();
 startNewsletterScheduler();
