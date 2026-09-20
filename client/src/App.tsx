@@ -47,6 +47,11 @@ export const App: React.FC = () => {
 
   // Check auth session
   useEffect(() => {
+    if (!isAdminRoute) {
+      setAuthChecking(false);
+      return;
+    }
+
     const checkAuth = async () => {
       try {
         const res = await fetchMe();
@@ -60,7 +65,7 @@ export const App: React.FC = () => {
       }
     };
     checkAuth();
-  }, []);
+  }, [isAdminRoute]);
 
   // Fetch Site Settings
   useEffect(() => {

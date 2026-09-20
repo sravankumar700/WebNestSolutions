@@ -27,7 +27,7 @@ const seedData = async () => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(adminPassword, salt);
     await AdminUser.create({
-      email: adminEmail,
+      email: adminEmail.toLowerCase().trim(),
       passwordHash,
       name: 'WebNest Admin',
       role: 'superadmin',

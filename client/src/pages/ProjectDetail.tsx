@@ -34,6 +34,12 @@ const galleryFallbacks: Record<string, string[]> = {
   ],
 };
 
+const liveUrlsBySlug: Record<string, string> = {
+  'hair-and-glow': 'https://hairandglow.vercel.app',
+  'street-barber': 'https://streetbarberrr.vercel.app/',
+  fryguy: 'https://fryguy.vercel.app/',
+};
+
 export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) => {
   const { slug } = useParams<{ slug: string }>();
   const [project, setProject] = useState<Project | null>(null);
@@ -133,7 +139,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ onOpenEnquiry }) =
 
             {/* Action Links */}
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex-shrink-0">
+              <a href={liveUrlsBySlug[project.slug] || project.liveUrl} target="_blank" rel="noreferrer" className="flex-shrink-0">
                 <Button variant="primary" showArrow={false}>
                   <span>Visit Live Website</span>
                   <ExternalLink className="w-4 h-4 ml-2" />

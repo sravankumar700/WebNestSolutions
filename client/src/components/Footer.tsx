@@ -197,6 +197,8 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
               <>
                 <form onSubmit={handleSubscribe} className="relative">
                   <input
+                    id="newsletter-email"
+                    name="email"
                     type="email"
                     required
                     aria-label="Newsletter email address"
